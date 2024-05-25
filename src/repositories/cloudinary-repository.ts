@@ -8,9 +8,9 @@ cloudinary.config({
 });
 
 class CloudinaryRepository {
-  async uploadFile(filePath: string, fileName: string) {
+  async uploadFile(filePath: string, fileName: string, path?: string) {
     const result = await cloudinary.uploader.upload(filePath, {
-      public_id: `ecom/user/${fileName}`,
+      public_id: `ecom/${path ? path : "user"}/${fileName}`,
     });
     console.log("File is uploaded on cloudinary", result.url);
 
@@ -31,4 +31,4 @@ class CloudinaryRepository {
   }
 }
 
-export default  CloudinaryRepository;
+export default CloudinaryRepository;

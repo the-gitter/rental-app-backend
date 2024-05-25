@@ -7,6 +7,7 @@ import userRouter from "./routes/userRoutes";
 import businessRouter from "./routes/businessRoutes";
 import notificationsRouter from "./routes/notificationsRoutes";
 import billsRouter from "./routes/billsRoutes";
+import postsRouter from "./routes/postsRoutes";
 
 export default async (app: Express, messageBroker?: MessageBrokerService) => {
   app.use(morgan("dev"));
@@ -25,4 +26,5 @@ export default async (app: Express, messageBroker?: MessageBrokerService) => {
   app.use("/businesses", businessRouter);
   app.use("/bills", billsRouter);
   app.use("/notifications", notificationsRouter);
+  app.use("/posts", postsRouter);
 };
