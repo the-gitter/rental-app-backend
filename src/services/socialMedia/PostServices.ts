@@ -20,7 +20,6 @@ export class PostsService {
 
   async createPost(req: Request, res: Response, next: NextFunction) {
     if (!validateRequestErrors(req, next)) return;
-
     const images: {
       secure_url: string;
       public_id: string;
