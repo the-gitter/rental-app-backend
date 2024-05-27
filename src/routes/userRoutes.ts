@@ -55,11 +55,11 @@ userRouter.delete(
   userServices.DeleteAddress
 );
 
-userRouter.get(
-  "/bills",
-  bearerTokenValidator,
-  verifyAccessToken,
-  userServices.GetBillHistory
-);
+// userRouter.get(
+//   "/bills/me",
+//   bearerTokenValidator,
+//   verifyAccessToken,
+//   userServices.GetBillHistory
+// );
 
 export default userRouter;

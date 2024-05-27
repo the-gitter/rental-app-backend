@@ -108,7 +108,12 @@ export default class BusinessServices {
   async GetBusinesses(req: Request, res: Response, next: NextFunction) {
     try {
       if (!validateRequestErrors(req, next)) return;
-      const response = await this.businessRepo.GetBusinesses();
+      const {  limit = 10, page = 1 } = req.query;
+      const response = await this.businessRepo.GetBusinesses({
+        limit: +limit,
+         
+        page: +page,  
+      });
       return SendApiResponse(res, 200, response);
     } catch (err) {
       next(createError.InternalServerError(`${err}`));

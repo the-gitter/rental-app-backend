@@ -11,6 +11,7 @@ export class PostsService {
     this.createPost = this.createPost.bind(this);
     this.getPosts = this.getPosts.bind(this);
     this.likePost = this.likePost.bind(this);
+    this.deletePost = this.deletePost.bind(this);
     this.unlikePost = this.unlikePost.bind(this);
     this.getMyPosts = this.getMyPosts.bind(this);
   }
@@ -48,13 +49,11 @@ export class PostsService {
     }
 
     const payload = req.payload as IPayload;
-    const { caption,location } = req.body;
+    const { caption, location } = req.body;
     try {
       const post = await this.postRepository.createPost({
+        ...req.body,
         userId: payload.userdocId,
-        caption,
-        images,
-        location
       });
       return SendApiResponse(res, 201, post);
     } catch (error) {
@@ -62,6 +61,20 @@ export class PostsService {
     }
   }
 
+  async deletePost(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!validateRequestErrors(req, next)) return;
+      const { postId } = req.params;
+      const payload = req.payload as IPayload;
+      const post = await this.postRepository.deletePost(
+        postId,
+        payload.userdocId
+      );
+      return SendApiResponse(res, 200, null, "Post deleted successfully");
+    } catch (error) {
+      next(createError.InternalServerError(`${error}`));
+    }
+  }
   async likePost(req: Request, res: Response, next: NextFunction) {
     try {
       if (!validateRequestErrors(req, next)) return;

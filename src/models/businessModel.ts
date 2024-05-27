@@ -20,7 +20,11 @@ export interface IBusiness extends Document {
 
 const BusinessSchema = new Schema<IBusiness>(
   {
-    owner: { type: Schema.Types.ObjectId, ref: "users", required: true },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+      required: true,
+    },
     businessName: { type: String, required: true },
     banner: {
       type: {
@@ -35,7 +39,11 @@ const BusinessSchema = new Schema<IBusiness>(
       type: { type: String, enum: ["Point"], required: true },
       coordinates: { type: [Number], required: true },
     },
-    contactNumber: String,
+    contactNumber: {
+      type: String,
+      required: true,
+      unique: true,
+    },  
     alternativecontactNumber: String,
     category: String,
   },

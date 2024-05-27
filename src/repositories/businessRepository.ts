@@ -14,14 +14,16 @@ export default class BusinessRepository {
     const bs = new BusinessModel(data);
     return await bs.save();
   }
-  async GetBusinesses() {
-    return await BusinessModel.find();
+  async GetBusinesses({ limit, page }: { limit: number; page: number }) {
+    return await BusinessModel.find({})
+      .skip(limit * (page - 1))
+      .limit(limit);
   }
   async GetBusinessById({ businessId }: { businessId: string }) {
     return await BusinessModel.findById(businessId);
   }
   async GetMyBusiness({ ownerId }: { ownerId: string }) {
-    return await BusinessModel.findOne({ owner: ownerId });
+    return await BusinessModel.find({ owner: ownerId });
   }
   async UpdateBusiness({
     data,

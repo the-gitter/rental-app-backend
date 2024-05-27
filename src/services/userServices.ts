@@ -25,7 +25,7 @@ export default class UserServices {
     this.cloudinaryRepo = new CloudinaryRepository();
 
     this.DeleteUser = this.DeleteUser.bind(this);
-    this.GetBillHistory = this.GetBillHistory.bind(this);
+    // this.GetBillHistory = this.GetBillHistory.bind(this);
     this.GetUserById = this.GetUserById.bind(this);
     this.UpdateUser = this.UpdateUser.bind(this);
     this.GetUser = this.GetUser.bind(this);
@@ -190,18 +190,18 @@ export default class UserServices {
     }
   }
 
-  async GetBillHistory(req: Request, res: Response, next: NextFunction) {
-    try {
-      if (!validateRequestErrors(req, next)) return;
+  // async GetBillHistory(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     if (!validateRequestErrors(req, next)) return;
 
-      const payload = req.payload as IPayload;
-      const response = await this.userRepo.GetBillHistory({
-        userId: payload.userdocId,
-      });
+  //     const payload = req.payload as IPayload;
+  //     const response = await this.userRepo.GetBillHistory({
+  //       userId: payload.userdocId,
+  //     });
 
-      return SendApiResponse(res, 200, response);
-    } catch (err) {
-      next(createError.InternalServerError(`${err}`));
-    }
-  }
+  //     return SendApiResponse(res, 200, response);
+  //   } catch (err) {
+  //     next(createError.InternalServerError(`${err}`));
+  //   }
+  // }
 }

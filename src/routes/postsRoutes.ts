@@ -19,6 +19,12 @@ postsRouter.post(
   multerMiddleware.array('images'),
   postsService.createPost
 );
+postsRouter.delete(
+  "/:postId",
+  bearerTokenValidator,
+  verifyAccessToken,
+  postsService.deletePost
+);
 postsRouter.patch(
   "/:postId/like",
   bearerTokenValidator,

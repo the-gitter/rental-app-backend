@@ -5,6 +5,7 @@ export class PostsRepository {
   constructor() {
     this.createPost = this.createPost.bind(this);
     this.getPosts = this.getPosts.bind(this);
+    this.deletePost = this.deletePost.bind(this);
     this.likePost = this.likePost.bind(this);
     this.unlikePost = this.unlikePost.bind(this);
     this.getMyPosts = this.getMyPosts.bind(this);
@@ -20,6 +21,12 @@ export class PostsRepository {
       .exec();
   }
 
+  async deletePost(postId: string, userId: string): Promise<void> {
+    await PostModel.findOneAndDelete({
+      _id: postId,
+      userId,
+    });
+  }
   async likePost(postId: string, userId: string): Promise<void> {
     await PostModel.findByIdAndUpdate(postId, {
       $addToSet: { likes: userId },
@@ -35,7 +42,7 @@ export class PostsRepository {
   async getMyPosts(userId: string): Promise<IPostDocument[]> {
     return PostModel.aggregate([
       {
-        $match: { userId: new mongoose.Types.ObjectId(userId) }
+        $match: { userId: new mongoose.Types.ObjectId(userId) },
       },
       {
         $lookup: {
@@ -49,7 +56,7 @@ export class PostsRepository {
       {
         $addFields: {
           likedByCurrentUser: {
-            $in: [new mongoose.Types.ObjectId(userId), '$likes']
+            $in: [new mongoose.Types.ObjectId(userId), "$likes"],
           },
           totalLikes: { $size: "$likes" },
         },
@@ -71,8 +78,12 @@ export class PostsRepository {
       },
     ]);
   }
-  
-  async getPosts(userId: string, page: number, limit: number): Promise<IPostDocument[]> {
+
+  async getPosts(
+    userId: string,
+    page: number,
+    limit: number
+  ): Promise<IPostDocument[]> {
     return PostModel.aggregate([
       {
         $lookup: {
@@ -86,7 +97,7 @@ export class PostsRepository {
       {
         $addFields: {
           likedByCurrentUser: {
-            $in: [new mongoose.Types.ObjectId(userId), '$likes']
+            $in: [new mongoose.Types.ObjectId(userId), "$likes"],
           },
           totalLikes: { $size: "$likes" },
         },
@@ -110,5 +121,4 @@ export class PostsRepository {
       { $limit: limit },
     ]);
   }
-  
 }

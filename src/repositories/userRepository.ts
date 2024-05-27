@@ -5,7 +5,7 @@ import UserModel, { IUser } from "../models/userModel";
 export default class UserRepository {
   constructor() {
     this.DeleteUserById = this.DeleteUserById.bind(this);
-    this.GetBillHistory = this.GetBillHistory.bind(this);
+    // this.GetBillHistory = this.GetBillHistory.bind(this);
     this.GetUserById = this.GetUserById.bind(this);
     this.GetUsers = this.GetUsers.bind(this);
     // this.SendBillToCustomer = this.SendBillToCustomer.bind(this);
@@ -50,12 +50,12 @@ export default class UserRepository {
       },
     }).populate("address");
   }
-  async GetBillHistory({ userId }: { userId: string }) {
-    return await UserModel.findById(userId).populate("addbillHistoryress");
-    // .select("billHistory")
-    // .populate("billHistory");
-    // return data?.billHistory;
-  }
+  // async GetBillHistory({ userId }: { userId: string }) {
+  //   return await UserModel.findById(userId).populate("addbillHistoryress");
+  //   // .select("billHistory")
+  //   // .populate("billHistory");
+  //   // return data?.billHistory;
+  // }
   async DeleteUserById({ uid }: { uid: string }) {
     return await UserModel.findOneAndDelete({ uid });
   }
