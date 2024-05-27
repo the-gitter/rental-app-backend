@@ -245,5 +245,24 @@ Utility functions and helpers used across the application.
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
+---
 
-`POSTMAN COLLECTION : https://www.postman.com/pavankumarmeesala/workspace/rental`
+### Steps to Build and Run the Docker Image
+
+#### Build the Docker Image:
+
+```sh
+docker build -t rental-app-backend.
+```
+
+#### Run the Docker Container:
+
+```sh
+docker run -p 3000:3000 rental-app-backend
+```
+
+### Postman Collection
+
+[Postman Collection: Rental](https://www.postman.com/pavankumarmeesala/workspace/rental)
+
+This should be correctly formatted and easy to follow.
