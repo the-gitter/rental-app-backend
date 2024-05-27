@@ -48,12 +48,13 @@ export class PostsService {
     }
 
     const payload = req.payload as IPayload;
-    const { caption } = req.body;
+    const { caption,location } = req.body;
     try {
       const post = await this.postRepository.createPost({
         userId: payload.userdocId,
         caption,
         images,
+        location
       });
       return SendApiResponse(res, 201, post);
     } catch (error) {
