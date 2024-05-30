@@ -1,9 +1,10 @@
 import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
-import UserModel from "../models/userModel";
+import UserModel, { IUser } from "../models/userModel";
 
 export default class AuthRepository {
-  async createUser({ user, role }: { user: DecodedIdToken; role: string }) {
+  async createUser({ user, data }: { user: DecodedIdToken; data: IUser }) {
     const newUser = new UserModel({
+      ...data,
       uid: user.uid,
       email: user.email,
       email_verified: user.email_verified,
@@ -11,7 +12,6 @@ export default class AuthRepository {
       photo_url: {
         secure_url: user.picture,
       },
-      role: [role],
     });
 
     await newUser.save();

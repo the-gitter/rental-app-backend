@@ -12,7 +12,7 @@ const authServices = new AuthServices();
 const authRouter = Router();
 
 authRouter.post(
-  "/firebase-singup",
+  "/firebase-signup",
   bearerTokenValidator,
   firebaseMiddleware,
   checkIfUserAlearyExists,

@@ -33,7 +33,7 @@ export default class BusinessRepository {
     data: Partial<IBusiness>;
   }) {
     return await BusinessModel.findOneAndUpdate(
-      { owner: ownerId },
+      { owner: ownerId, _id: data._id },
       { $set: { ...data } }
     );
   }

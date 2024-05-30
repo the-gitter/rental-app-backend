@@ -53,6 +53,7 @@ export class PostsService {
     try {
       const post = await this.postRepository.createPost({
         ...req.body,
+        images: images,
         userId: payload.userdocId,
       });
       return SendApiResponse(res, 201, post);

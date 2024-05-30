@@ -32,12 +32,11 @@ export default class AuthServices {
       if (!validateRequestErrors(req, next)) return;
 
       const user = req?.firebaseUser;
-      const { role = "customer" } = req.body;
       const createdUser = await this.authRepo!.createUser({
         user: user!,
-        role,
+        data: req.body,
       });
-      return SendApiResponse(res, 200, createdUser);
+      return SendApiResponse(res, 201, createdUser);
     } catch (err) {
       next(createError.InternalServerError(`${err}`));
     }

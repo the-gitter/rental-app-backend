@@ -87,7 +87,7 @@ export default class BusinessServices {
           },
         });
       }
-      return SendApiResponse(res, 200, response);
+      return SendApiResponse(res, 201, response);
     } catch (err) {
       next(createError.InternalServerError(`${err}`));
     }

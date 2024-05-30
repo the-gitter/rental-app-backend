@@ -18,6 +18,13 @@ businessRouter.post(
   multerMiddleware.single("banner"),
   businessServices.CreateNewProfile
 );
+businessRouter.put(
+  "/",
+  bearerTokenValidator,
+  verifyAccessToken,
+  multerMiddleware.single("banner"),
+  businessServices.UpdateBusiness
+);
 businessRouter.get(
   "/me",
   bearerTokenValidator,

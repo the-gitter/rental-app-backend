@@ -6,6 +6,7 @@ export interface IUser extends Document {
   email_verified: boolean;
   first_name: string;
   last_name: string;
+  bio: string;
   phone_number: string;
   photo_url: {
     secure_url: string;
@@ -36,12 +37,18 @@ const schema = new Schema<IUser>(
     },
     first_name: {
       type: String,
+      default: "",
     },
     last_name: {
       type: String,
+      default: "",
     },
     phone_number: {
       type: String,
+    },
+    bio: {
+      type: String,
+      default: "",
     },
     photo_url: {
       type: {
