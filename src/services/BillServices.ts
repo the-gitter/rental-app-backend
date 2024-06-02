@@ -64,7 +64,7 @@ export default class BillServices {
         });
       }
 
-      return SendApiResponse(res, 200, response);
+      return SendApiResponse(res, 201, response);
     } catch (err) {
       next(createError.InternalServerError(`${err}`));
     }
