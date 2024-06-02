@@ -30,6 +30,7 @@ export default class UserServices {
     this.UpdateUser = this.UpdateUser.bind(this);
     this.GetUser = this.GetUser.bind(this);
     this.GetUsers = this.GetUsers.bind(this);
+    this.SearchUsers = this.SearchUsers.bind(this);
 
     this.CreateAddress = this.CreateAddress.bind(this);
     this.DeleteAddress = this.DeleteAddress.bind(this);
@@ -97,6 +98,23 @@ export default class UserServices {
     }
   }
 
+  async SearchUsers(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { phone_number, email, name } = req.query as {
+        phone_number?: string;
+        email?: string;
+        name?: string;
+      };
+      const data = await this.userRepo?.SearchUsers({
+        email,
+        name,
+        phone_number,
+      });
+      return SendApiResponse(res, 200, data);
+    } catch (err) {
+      next(createError.InternalServerError(`${err}`));
+    }
+  }
   async GetUser(req: Request, res: Response, next: NextFunction) {
     try {
       if (!validateRequestErrors(req, next)) return;

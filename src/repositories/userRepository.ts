@@ -31,6 +31,34 @@ export default class UserRepository {
   async DeleteAddress(addId: Types.ObjectId) {
     return await AddressModel.findByIdAndDelete(addId);
   }
+  async SearchUsers({
+    email,
+    name,
+    phone_number,
+  }: {
+    email?: string;
+    name?: string;
+    phone_number?: string;
+  }) {
+    const query: any = {};
+
+    if (email) {
+      query.email = { $regex: email, $options: 'i' }; 
+    }
+    if (phone_number) {
+      query.phone_number = { $regex: phone_number, $options: 'i' };  
+    }
+  
+    if (name) {
+      query.$or = [
+        { first_name: { $regex: name, $options: 'i' } }, 
+        { last_name: { $regex: name, $options: 'i' } },  
+      ];
+    }
+
+    return await UserModel.find(query);
+  }
+
   async GetUserById({ userId }: { userId: string }) {
     return await UserModel.findById(userId).populate("address");
   }

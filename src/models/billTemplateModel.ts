@@ -5,12 +5,20 @@ export interface IItemSchema extends Document {
   rentCost: number;
   details: string;
   quantity: number;
+  rent_type: "per_day" | "per_hour";
+  _id: boolean;
 }
 export const ItemSchema = new Schema<IItemSchema>({
   itemName: { type: String, required: true },
   rentCost: { type: Number, required: true },
   quantity: { type: Number, required: true },
   details: String,
+  rent_type: {
+    type: String,
+    enum: ["per_day", "per_hour"],
+    default: "per_day",
+  },
+  _id: false,
 });
 
 export interface IBillTemplate extends Document {

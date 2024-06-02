@@ -30,7 +30,7 @@ export default class BillsRepository {
   async UpdateBill({ billId, data }: { billId: string; data: Partial<IBill> }) {
     return await BillModel.findByIdAndUpdate(billId, { $set: { ...data } });
   }
-  async DeleteBill({ templateId }: { templateId: string }) {
-    return await BillModel.findByIdAndDelete(templateId);
+  async DeleteBill({ billId }: { billId: string }) {
+    return await BillModel.findByIdAndDelete(billId);
   }
 }

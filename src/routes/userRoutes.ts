@@ -12,6 +12,10 @@ const userServices = new UserServices();
 const userRouter = Router();
 
 userRouter.get(
+  "/",
+  userServices.SearchUsers
+);
+userRouter.get(
   "/me",
   bearerTokenValidator,
   verifyAccessToken,
