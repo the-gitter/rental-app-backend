@@ -13,18 +13,27 @@ export default class BillsRepository {
 
   async CreateBill({ data }: { data: Partial<IBill> }) {
     const bill = new BillModel(data);
-    return await bill.save();
+    await bill.save();
+    return await BillModel.findById(bill._id)
+      .populate("customer")
+      .populate("business");
   }
 
   async GetBillsForCustomer({ customer }: { customer: string }) {
-    console.log(customer)
-    return await BillModel.find({ customer: customer }).populate('customer').populate('business');
+    console.log(customer);
+    return await BillModel.find({ customer: customer })
+      .populate("customer")
+      .populate("business").sort({createAt:'desc'});
   }
   async GetBillsForBusiness({ businessId }: { businessId: string }) {
-    return await BillModel.find({ business: businessId }).populate('customer').populate('business');
+    return await BillModel.find({ business: businessId })
+      .populate("customer")
+      .populate("business");
   }
   async GetBillById({ billId }: { billId: string }) {
-    return await BillModel.findById(billId).populate('customer').populate('business');
+    return await BillModel.findById(billId)
+      .populate("customer")
+      .populate("business");
   }
 
   async UpdateBill({ billId, data }: { billId: string; data: Partial<IBill> }) {

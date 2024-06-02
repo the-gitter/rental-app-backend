@@ -45,7 +45,7 @@ const BillSchema = new Schema<IBill>(
       transactionId: String,
       status: {
         type: String,
-        enum: ["pending", "complated", "failed"],
+        enum: ["pending", "complete", "failed"],
         default: "pending",
       },
     },
