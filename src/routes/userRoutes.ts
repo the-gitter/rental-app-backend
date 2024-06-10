@@ -4,29 +4,24 @@ import firebaseMiddleware, {
   checkIfUserAlearyExists,
   bearerTokenValidator,
 } from "../middlewares/firebaseMiddleware";
-import { refreshTokenValidator } from "../utils/validators/validators";
+import {
+  authorize,
+  refreshTokenValidator,
+} from "../utils/validators/validators";
 import { verifyAccessToken, verifyRefreshToken } from "../utils/jwt_helper";
 import SendApiResponse from "../utils/SendApiResponse";
 import multerMiddleware from "../middlewares/multer";
 const userServices = new UserServices();
 const userRouter = Router();
 
-userRouter.get(
-  "/",
-  userServices.SearchUsers
-);
+userRouter.get("/", userServices.SearchUsers);
 userRouter.get(
   "/me",
   bearerTokenValidator,
   verifyAccessToken,
   userServices.GetUser
 );
-userRouter.get(
-  "/:userId",
-  bearerTokenValidator,
-  verifyAccessToken,
-  userServices.GetUserById
-);
+
 userRouter.put(
   "/",
   bearerTokenValidator,
@@ -57,6 +52,29 @@ userRouter.delete(
   bearerTokenValidator,
   verifyAccessToken,
   userServices.DeleteAddress
+);
+
+userRouter.put(
+  "/add-role",
+  bearerTokenValidator,
+  verifyAccessToken,
+  authorize({ role: "superUser" }),
+  userServices.addUserRole
+);
+
+userRouter.delete(
+  "/remove-role",
+  bearerTokenValidator,
+  verifyAccessToken,
+  authorize({ role: "superUser" }),
+  userServices.removeUserRole
+);
+
+userRouter.get(
+  "/:userId",
+  bearerTokenValidator,
+  verifyAccessToken,
+  userServices.GetUserById
 );
 
 // userRouter.get(

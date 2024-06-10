@@ -14,6 +14,7 @@ export default class UserRepository {
     this.CreateAddress = this.CreateAddress.bind(this);
     this.DeleteAddress = this.DeleteAddress.bind(this);
     this.UpdateAddress = this.UpdateAddress.bind(this);
+    this.addUserRole = this.addUserRole.bind(this);
   }
   async CreateAddress(add: Partial<IAddress>) {
     const addr = new AddressModel(add);
@@ -31,6 +32,20 @@ export default class UserRepository {
   async DeleteAddress(addId: Types.ObjectId) {
     return await AddressModel.findByIdAndDelete(addId);
   }
+  async addUserRole({ userId, role }: { userId: string; role: string }) {
+    return await UserModel.findByIdAndUpdate(userId, {
+      $push: {
+        role: role,
+      },
+    });
+  }
+  async removeUserRole({ userId, role }: { userId: string; role: string }) {
+    return await UserModel.findByIdAndUpdate(userId, {
+      $pull: {
+        role: role,
+      },
+    });
+  }
   async SearchUsers({
     email,
     name,
@@ -43,16 +58,16 @@ export default class UserRepository {
     const query: any = {};
 
     if (email) {
-      query.email = { $regex: email, $options: 'i' }; 
+      query.email = { $regex: email, $options: "i" };
     }
     if (phone_number) {
-      query.phone_number = { $regex: phone_number, $options: 'i' };  
+      query.phone_number = { $regex: phone_number, $options: "i" };
     }
-  
+
     if (name) {
       query.$or = [
-        { first_name: { $regex: name, $options: 'i' } }, 
-        { last_name: { $regex: name, $options: 'i' } },  
+        { first_name: { $regex: name, $options: "i" } },
+        { last_name: { $regex: name, $options: "i" } },
       ];
     }
 

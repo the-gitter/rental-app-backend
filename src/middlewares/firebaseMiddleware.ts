@@ -58,10 +58,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         return next(createError.NotAcceptable());
       }
     } catch (error) {
-      if ((error as any).code === "auth/id-token-expired") {
+      if ((error as any).code === "auth/id-token-expired"||(error as any).code === "auth/argument-error") {
         console.log("Token expired");
         return next(createError.Unauthorized("Token Expired"));
       } else {
+        console.log(error)
         return next(createError.InternalServerError());
       }
     }

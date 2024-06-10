@@ -14,7 +14,7 @@ export interface IUser extends Document {
     mime_type: string;
     uploaded_type: "url" | "cloud";
   };
-  role: [];
+  role: Array<"customer" | "businessOwner" | "superUser">;
   address: Types.ObjectId;
   accountStatus: "active" | "inactive" | "suspended";
   // billHistory: Types.ObjectId[];
@@ -66,7 +66,7 @@ const schema = new Schema<IUser>(
     role: [
       {
         type: String,
-        enum: ["customer", "businessOwner"],
+        enum: ["customer", "businessOwner", "superUser"],
         required: true,
       },
     ],

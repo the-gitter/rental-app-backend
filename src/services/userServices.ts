@@ -35,6 +35,8 @@ export default class UserServices {
     this.CreateAddress = this.CreateAddress.bind(this);
     this.DeleteAddress = this.DeleteAddress.bind(this);
     this.UpdateAddress = this.UpdateAddress.bind(this);
+    this.addUserRole = this.addUserRole.bind(this);
+    this.removeUserRole = this.removeUserRole.bind(this);
   }
 
   async CreateAddress(req: Request, res: Response, next: NextFunction) {
@@ -90,6 +92,40 @@ export default class UserServices {
           data: { address: undefined },
         });
         return SendApiResponse(res, 200, address, "deleted");
+      } else {
+        next(createError.NotAcceptable(`invalid request`));
+      }
+    } catch (err) {
+      next(createError.InternalServerError(`${err}`));
+    }
+  }
+  async addUserRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!validateRequestErrors(req, next)) return;
+      const payload = req.payload as IPayload;
+      const user = await this.userRepo.addUserRole({
+        userId: req.body.userId,
+        role: req.body.role,
+      });
+      if (user) {
+        return SendApiResponse(res, 200, user, "added user role");
+      } else {
+        next(createError.NotAcceptable(`invalid request`));
+      }
+    } catch (err) {
+      next(createError.InternalServerError(`${err}`));
+    }
+  }
+  async removeUserRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!validateRequestErrors(req, next)) return;
+      const payload = req.payload as IPayload;
+      const user = await this.userRepo.removeUserRole({
+        userId: req.body.userId,
+        role: req.body.role,
+      });
+      if (user) {
+        return SendApiResponse(res, 200, user, "removed user role");
       } else {
         next(createError.NotAcceptable(`invalid request`));
       }

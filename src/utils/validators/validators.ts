@@ -6,7 +6,7 @@ export const refreshTokenValidator = [
   body("refreshToken").exists().withMessage("Please provide proper content"),
 ];
 interface IAuthorize {
-  role: "customer" | "businessOwner";
+  role: "customer" | "businessOwner" | "superUser";
 }
 export function authorize({ role }: IAuthorize) {
   return function (req: Request, res: Response, next: NextFunction) {
