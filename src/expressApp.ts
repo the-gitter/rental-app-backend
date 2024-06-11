@@ -12,6 +12,7 @@ import brandsRouter from "./routes/ecom/brandRoutes";
 import categoryRoutes from "./routes/ecom/categoryRoutes";
 import variantRouter from "./routes/ecom/variantsRouter";
 import productRouter from "./routes/ecom/productsRouter";
+import collectionsRouter from "./routes/ecom/collectionsRouter";
 
 export default async (app: Express, messageBroker?: MessageBrokerService) => {
   app.use(morgan("dev"));
@@ -35,4 +36,5 @@ export default async (app: Express, messageBroker?: MessageBrokerService) => {
   app.use("/categories", categoryRoutes);
   app.use("/products", productRouter);
   app.use("/variants", variantRouter);
+  app.use("/collections", collectionsRouter);
 };

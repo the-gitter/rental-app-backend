@@ -11,7 +11,7 @@ export interface IVariant extends Document {
   // discount_id: mongoose.Types.ObjectId;
   price: number;
   images: { secure_url: string; public_id: string; mime_type: string }[];
-  status: "unlisted" | "visible";
+  visibility: boolean;
   slug: string;
 }
 
@@ -35,10 +35,7 @@ const variantSchema = new Schema<IVariant>(
         mime_type: String,
       },
     ],
-    status: {
-      type: String,
-      default: "visible",
-    },
+    visibility: { type: Boolean, default: true },
     slug: { type: String, required: true },
   },
   { timestamps: true }
@@ -58,4 +55,4 @@ variantSchema.pre("save", async function (next) {
   next();
 });
 
-export default model<IVariant>("Variant", variantSchema);
+export default model<IVariant>("variants", variantSchema);

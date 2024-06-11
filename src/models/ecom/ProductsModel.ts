@@ -14,7 +14,7 @@ export interface IProduct extends Document {
   brand_id: mongoose.Types.ObjectId;
   variants: mongoose.Types.ObjectId[];
   featured_variant: mongoose.Types.ObjectId;
-  status: "unlisted" | "visible";
+  visibility: boolean;
 }
 
 const productSchema = new Schema<IProduct>(
@@ -34,10 +34,7 @@ const productSchema = new Schema<IProduct>(
     brand_id: { type: Schema.Types.ObjectId, ref: "brands" },
     variants: [{ type: Schema.Types.ObjectId, ref: "variants" }],
     featured_variant: { type: Schema.Types.ObjectId, ref: "variants" },
-    status: {
-      type: String,
-      default: "visible",
-    },
+    visibility: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
