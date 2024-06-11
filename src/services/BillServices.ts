@@ -50,7 +50,10 @@ export default class BillServices {
       const payload = req.payload as IPayload;
       let invoiceNum;
       let response;
-      if ((req.body as IBill).invoiceNumber) {
+      if (
+        (req.body as IBill).invoiceNumber &&
+        (req.body as IBill).invoiceNumber.trim().length != 0
+      ) {
         response = await this.billRepo.CreateBill({
           data: { ...req.body, invoiceNumber: invoiceNum },
         });
@@ -61,7 +64,7 @@ export default class BillServices {
         });
       }
 
-      return SendApiResponse(res, 200, response);
+      return SendApiResponse(res, 201, response);
     } catch (err) {
       next(createError.InternalServerError(`${err}`));
     }
@@ -120,9 +123,9 @@ export default class BillServices {
     try {
       if (!validateRequestErrors(req, next)) return;
       const payload = req.payload as IPayload;
-      const { templateId } = req.params;
+      const { billId } = req.params;
       const response = await this.billRepo.DeleteBill({
-        templateId,
+        billId,
       });
       return SendApiResponse(res, 200, null);
     } catch (err) {
@@ -146,7 +149,7 @@ export default class BillServices {
       // });
       const billInfo = await this.billRepo.GetBillById({ billId });
 
-      const response=await this.notificationRepo.Create({
+      const response = await this.notificationRepo.Create({
         data: {
           user: customerId,
           message: message ?? "New Bill Recieved",

@@ -47,12 +47,12 @@ billsRouter.put(
   businessServices.UpdateBill
 );
 
-// billsRouter.delete(
-//   "/:templateId",
-//   bearerTokenValidator,
-//   verifyAccessToken,
-//   businessServices.DeleteBill
-// );
+billsRouter.delete(
+  "/:billId",
+  bearerTokenValidator,
+  verifyAccessToken,
+  businessServices.DeleteBill
+);
 
 billsRouter.post(
   "/:customerId/send/:billId",

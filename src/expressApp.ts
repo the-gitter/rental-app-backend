@@ -8,6 +8,10 @@ import businessRouter from "./routes/businessRoutes";
 import notificationsRouter from "./routes/notificationsRoutes";
 import billsRouter from "./routes/billsRoutes";
 import postsRouter from "./routes/postsRoutes";
+import brandsRouter from "./routes/ecom/brandRoutes";
+import categoryRoutes from "./routes/ecom/categoryRoutes";
+import variantRouter from "./routes/ecom/variantsRouter";
+import productRouter from "./routes/ecom/productsRouter";
 
 export default async (app: Express, messageBroker?: MessageBrokerService) => {
   app.use(morgan("dev"));
@@ -27,4 +31,8 @@ export default async (app: Express, messageBroker?: MessageBrokerService) => {
   app.use("/bills", billsRouter);
   app.use("/notifications", notificationsRouter);
   app.use("/posts", postsRouter);
+  app.use("/brands", brandsRouter);
+  app.use("/categories", categoryRoutes);
+  app.use("/products", productRouter);
+  app.use("/variants", variantRouter);
 };

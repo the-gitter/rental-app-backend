@@ -30,10 +30,13 @@ export default class UserServices {
     this.UpdateUser = this.UpdateUser.bind(this);
     this.GetUser = this.GetUser.bind(this);
     this.GetUsers = this.GetUsers.bind(this);
+    this.SearchUsers = this.SearchUsers.bind(this);
 
     this.CreateAddress = this.CreateAddress.bind(this);
     this.DeleteAddress = this.DeleteAddress.bind(this);
     this.UpdateAddress = this.UpdateAddress.bind(this);
+    this.addUserRole = this.addUserRole.bind(this);
+    this.removeUserRole = this.removeUserRole.bind(this);
   }
 
   async CreateAddress(req: Request, res: Response, next: NextFunction) {
@@ -96,7 +99,58 @@ export default class UserServices {
       next(createError.InternalServerError(`${err}`));
     }
   }
+  async addUserRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!validateRequestErrors(req, next)) return;
+      const payload = req.payload as IPayload;
+      const user = await this.userRepo.addUserRole({
+        userId: req.body.userId,
+        role: req.body.role,
+      });
+      if (user) {
+        return SendApiResponse(res, 200, user, "added user role");
+      } else {
+        next(createError.NotAcceptable(`invalid request`));
+      }
+    } catch (err) {
+      next(createError.InternalServerError(`${err}`));
+    }
+  }
+  async removeUserRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!validateRequestErrors(req, next)) return;
+      const payload = req.payload as IPayload;
+      const user = await this.userRepo.removeUserRole({
+        userId: req.body.userId,
+        role: req.body.role,
+      });
+      if (user) {
+        return SendApiResponse(res, 200, user, "removed user role");
+      } else {
+        next(createError.NotAcceptable(`invalid request`));
+      }
+    } catch (err) {
+      next(createError.InternalServerError(`${err}`));
+    }
+  }
 
+  async SearchUsers(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { phone_number, email, name } = req.query as {
+        phone_number?: string;
+        email?: string;
+        name?: string;
+      };
+      const data = await this.userRepo?.SearchUsers({
+        email,
+        name,
+        phone_number,
+      });
+      return SendApiResponse(res, 200, data);
+    } catch (err) {
+      next(createError.InternalServerError(`${err}`));
+    }
+  }
   async GetUser(req: Request, res: Response, next: NextFunction) {
     try {
       if (!validateRequestErrors(req, next)) return;

@@ -12,6 +12,7 @@ export default class AuthRepository {
       photo_url: {
         secure_url: user.picture,
       },
+      role: "customer",
     });
 
     await newUser.save();
